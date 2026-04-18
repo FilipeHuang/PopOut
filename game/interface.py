@@ -1,5 +1,13 @@
 from game import PopOutState
-from utils import print_board
+
+def print_board(state):
+    print("\n     0   1   2   3   4   5   6")
+    print("   " + "─" * 29)
+    for row in state.board[::-1]:        # Top row first
+        line = " │ ".join(["X" if x == 1 else "O" if x == 2 else "-" for x in row])
+        print("   │ " + line + " │")
+    print("   " + "─" * 29)
+    if not state.is_terminal(): print(f"   It is now {'X' if state.player == 1 else 'O'}'s turn.\n")
 
 def play_game():
     state = PopOutState()
@@ -20,10 +28,22 @@ def play_game():
         
         moves = state.get_legal_moves()
         print(f"Legal moves: {moves}")
-        
+
+        #rule 2: give option to draw if board is full
+        is_draw = any(m[1]=='draw' for m in moves)  #bool
+
+        if is_draw: text = "\nEnter column (0-6) or 'd' for DRAW: "
+        else: text = "\nEnter column (0-6): "
+
         while True:
             try:
-                col = int(input("\nEnter column (0-6): "))
+                choice = input(text)
+                if choice=='d':
+                    if is_draw:
+                        state = state.make_move((-1, 'draw'))
+                        break
+                    else: continue
+                col = int(choice)
                 if not 0 <= col <= 6:
                     print("Column must be between 0 and 6!")
                     continue
@@ -40,17 +60,17 @@ def play_game():
                     if ask not in ['+', '-']:
                         print("Please type '+' or '-'.")
                         continue
-                    is_pop = (ask == '-') #return bool
+                    action = 'pop' if ask == '-' else 'put'
                 elif can_put:
                     print(f"Only 'put' is possible in column {col}.")
-                    is_pop = False
+                    action = 'put'
                 else:   #'pop' as the only move
                     print(f"Only 'pop' is possible in column {col}.")
-                    is_pop = True
+                    action = 'pop'
                 
-                move = (col, 'pop' if is_pop else 'put')
+                move = (col, action)
                 if move in moves:
-                    state = state.make_move(col, is_pop)
+                    state = state.make_move(move)
                     break
                 else: print("This move is not legal.")
             except ValueError: print("Please enter a valid number for column.")
