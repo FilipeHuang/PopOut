@@ -6,17 +6,17 @@ Test the rules by using the following command using files from <*game/ex_inputs*
 
 - Player O winning by 'pop':
 ``` bash
-python3 main.py < o_pop_win.txt
+python3 main.py < ex_inputs/o_pop_win.txt
 ```
 - Player X winning by 'pop':
 ``` bash
-python3 main.py < x_pop_win.txt
+python3 main.py < ex_inputs/x_pop_win.txt
 ```
 - Draw by full board state:
 ``` bash
-python3 main.py < full_board_draw.txt
+python3 main.py < ex_inputs/full_board_draw.txt
 ```
 - Draw by 3 repeated states:
 ``` bash
-python3 main.py < repeated_draw.txt
+python3 main.py < ex_inputs/repeated_draw.txt
 ```
