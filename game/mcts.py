@@ -3,9 +3,9 @@ import random
 
 class MCTSNode:
     def __init__(self, state, parent=None, move=None):
-        self.state = state          # PopOutState
-        self.parent = parent        # nó pai
-        self.move = move            # jogada que gerou este nó
+        self.state = state
+        self.parent = parent
+        self.move = move
         self.children = []
         self.wins = 0
         self.visits = 0
@@ -15,8 +15,7 @@ class MCTSNode:
         return len(self.untried_moves) == 0
 
     def best_child(self, c=1.41):
-        # Fórmula UCB1
-        return max(self.children, key=lambda n: 
+        return max(self.children, key=lambda n:
             n.wins / n.visits + c * math.sqrt(math.log(self.visits) / n.visits)
         )
 
@@ -28,7 +27,6 @@ class MCTSNode:
         return child
 
     def rollout(self):
-        # Simulação aleatória até ao fim
         state = self.state.copy()
         while not state.is_terminal():
             moves = state.get_legal_moves()
@@ -46,9 +44,13 @@ class MCTSNode:
 
 
 def mcts_search(state, iterations=1000):
-    """
-    Recebe um PopOutState e devolve a melhor jogada.
-    """
+    # Nas primeiras 2 peças no tabuleiro, joga aleatoriamente para variedade
+    total_pieces = sum(cell != 0 for row in state.board for cell in row)
+    if total_pieces < 2:
+        put_moves = [(c, 'put') for c in range(7)
+                     if any(state.board[r][c] == 0 for r in range(6))]
+        return random.choice(put_moves)
+
     ai_player = state.player
     root = MCTSNode(state)
 
@@ -68,6 +70,5 @@ def mcts_search(state, iterations=1000):
         # 4. Backpropagation
         node.backpropagate(result, ai_player)
 
-    # Devolve a jogada do filho com mais visitas
     best = max(root.children, key=lambda n: n.visits)
     return best.move
