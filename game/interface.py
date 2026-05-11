@@ -1,4 +1,5 @@
 from game import PopOutState
+from mcts import mcts_search
 
 def print_board(state):
     print("\n     0   1   2   3   4   5   6")
@@ -16,8 +17,16 @@ def play_game():
     print("           POPOUT GAME")
     print("=" * 35)
     print("Rules: Drop or Pop your pieces.\nFirst to 4 in a row wins!")
-    print("Type 'put' or 'pop' when asked.\n")    
-    
+    print("Type 'put' or 'pop' when asked.\n")
+
+    # Escolha do modo de jogo
+    while True:
+        mode = input("Game mode: (1) Human vs Human  (2) Human vs AI: ").strip()
+        if mode in ['1', '2']:
+            break
+        print("Please enter 1 or 2.")
+    ai_player = 2 if mode == '2' else None  # IA joga como 'O' (jogador 2)
+
     print_board(state)
 
     while not state.is_terminal():
@@ -25,7 +34,16 @@ def play_game():
         print(f"\n{'=' * 35}")
         print(f"            {player_symbol}'S TURN")
         print(f"{'=' * 35}")
-        
+
+        # Turno da IA
+        if ai_player and state.player == ai_player:
+            print("AI is thinking...")
+            move = mcts_search(state, iterations=1000)
+            print(f"AI played: column {move[0]}, {move[1]}")
+            state = state.make_move(move)
+            print_board(state)
+            continue
+
         moves = state.get_legal_moves()
         print(f"Legal moves: {moves}")
 
