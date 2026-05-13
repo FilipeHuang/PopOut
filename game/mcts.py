@@ -35,21 +35,21 @@ class MCTSNode:
 
     def backpropagate(self, result, ai_player):
         self.visits += 1
-        if result == ai_player:
+        if result == 'draw':
+            self.wins -= 0.5
+        elif result == ai_player:
             self.wins += 1
-        elif result == 'draw':
-            self.wins += 0.5
+        else: self.wins -= 15
         if self.parent:
             self.parent.backpropagate(result, ai_player)
 
 
-def mcts_search(state, iterations=1000):
+def mcts_search(state, iterations=1500, c=1.41):
     # Nas primeiras 2 peças no tabuleiro, joga aleatoriamente para variedade
     total_pieces = sum(cell != 0 for row in state.board for cell in row)
     if total_pieces < 2:
-        put_moves = [(c, 'put') for c in range(7)
-                     if any(state.board[r][c] == 0 for r in range(6))]
-        return random.choice(put_moves)
+        moves = state.get_legal_moves()
+        return random.choice(moves)
 
     ai_player = state.player
     root = MCTSNode(state)
@@ -58,7 +58,7 @@ def mcts_search(state, iterations=1000):
         # 1. Selection
         node = root
         while node.is_fully_expanded() and node.children:
-            node = node.best_child()
+            node = node.best_child(c)
 
         # 2. Expansion
         if not node.is_fully_expanded():
