@@ -26,7 +26,7 @@ def generate_dataset(num_games=1000, iterations=2000, output_file="dataset.csv")
             print(f"Game {game_num + 1}/{num_games} | Exemplos guardados: {total}")
 
             while not state.is_terminal():
-                best_move = mcts_search(state, iterations=iterations)
+                best_move = mcts_search(state, iterations=iterations, c=1.41)
 
                 features = state_to_features(state)
                 state_key = tuple(features)
