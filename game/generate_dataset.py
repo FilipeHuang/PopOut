@@ -174,4 +174,4 @@ def generate_dataset(num_games=1000, iterations=2000, output_file="dataset.csv")
 
 
 if __name__ == "__main__":
-    generate_dataset(num_games=1000, iterations=2000, output_file="dataset.csv")
+    generate_dataset(num_games=50, iterations=100, output_file="dataset.csv")
