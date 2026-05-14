@@ -9,7 +9,41 @@ class MCTSNode:
         self.children = []
         self.wins = 0
         self.visits = 0
-        self.untried_moves = state.get_legal_moves()
+        self.untried_moves = self._get_smart_moves(state)
+
+    def _get_smart_moves(self, state):
+        moves = state.get_legal_moves()
+        if not moves: return []
+
+        for m in moves:
+            if state.make_move(m).get_winner() == state.player:
+                return [m]
+
+        dummy = state.copy()
+        dummy.player = 3 - state.player
+        opp_moves = dummy.get_legal_moves()
+        threats = []
+        
+        for m in opp_moves:
+            if dummy.make_move(m).get_winner() == dummy.player:
+                threats.append(m)
+
+        if threats:
+            blocks = []
+            for m in moves:
+                ns = state.make_move(m)
+                still_threatened = False
+                for opp_m in ns.get_legal_moves():
+                    if ns.make_move(opp_m).get_winner() == ns.player:
+                        still_threatened = True
+                        break
+                if not still_threatened:
+                    blocks.append(m)
+            if blocks:
+                moves = blocks
+
+        moves.sort(key=lambda m: abs(m[0] - 3), reverse=True)
+        return moves
 
     def is_fully_expanded(self):
         return len(self.untried_moves) == 0
