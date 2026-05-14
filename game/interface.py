@@ -5,7 +5,7 @@ from id3_popout import train_tree, get_id3_move
 def print_board(state):
     print("\n      0   1   2   3   4   5   6")
     print("   " + "─" * 29)
-    for row in state.board[::-1]:        # Top row first
+    for row in state.board[::-1]:
         line = " │ ".join(["X" if x == 1 else "O" if x == 2 else "-" for x in row])
         print("   │ " + line + " │")
     print("   " + "─" * 29)
@@ -23,8 +23,8 @@ def play_game():
 
         ai_mcts_player = None
         ai_id3_player = None
+        c_value = 1.41
 
-        # Escolha do modo de jogo
         while True:
             print("\nMain Menu:")
             print("(1) Human vs Human")
@@ -50,6 +50,15 @@ def play_game():
                     break
                 print("Please enter 1 or 2.")
 
+            if ai_choice == '1':
+                while True:
+                    try:
+                        c_input = input("Enter exploration parameter 'c' for MCTS (default 1.41): ").strip()
+                        c_value = float(c_input) if c_input else 1.41
+                        break
+                    except ValueError:
+                        print("Please enter a valid number.")
+
             while True:
                 symbol = input("Do you want to play as 'X' (first) or 'O' (second)? (X/O): ").strip().upper()
                 if symbol in ['X', 'O']:
@@ -57,13 +66,21 @@ def play_game():
                 print("Please enter X or O.")
                 
             if symbol == 'X':
-                if ai_choice == '1': ai_mcts_player = 2  # IA joga como 'O' (jogador 2)
+                if ai_choice == '1': ai_mcts_player = 2
                 else: ai_id3_player = 2
             else:
                 if ai_choice == '1': ai_mcts_player = 1
                 else: ai_id3_player = 1
 
         elif mode == '3':
+            while True:
+                try:
+                    c_input = input("Enter exploration parameter 'c' for MCTS (default 1.41): ").strip()
+                    c_value = float(c_input) if c_input else 1.41
+                    break
+                except ValueError:
+                    print("Please enter a valid number.")
+
             while True:
                 first = input("Who plays first as 'X'? (1) MCTS or (2) ID3: ").strip()
                 if first in ['1', '2']:
@@ -94,10 +111,9 @@ def play_game():
 
             moves = state.get_legal_moves()
 
-            # Turno da IA
             if ai_mcts_player and state.player == ai_mcts_player:
                 print("MCTS AI is thinking...")
-                move = mcts_search(state, iterations=1000)
+                move = mcts_search(state, iterations=1000, c=c_value)
                 print(f"MCTS played: column {move[0]}, {move[1]}")
                 state = state.make_move(move)
                 print_board(state)
@@ -120,8 +136,7 @@ def play_game():
 
             print(f"Legal moves: {moves}")
 
-            #rule 2: give option to draw if board is full
-            is_draw = any(m[1]=='draw' for m in moves)  #bool
+            is_draw = any(m[1]=='draw' for m in moves)
 
             if is_draw: text = "\nEnter column (0-6) or 'd' for DRAW: "
             else: text = "\nEnter column (0-6): "
@@ -146,7 +161,6 @@ def play_game():
                         print("No moves possible in this column.")
                         continue
                     if can_put and can_pop:
-                        #ask if both exist
                         ask = input("Enter action ('+' for put or '-' for pop): ").strip().lower()
                         if ask not in ['+', '-']:
                             print("Please type '+' or '-'.")
@@ -155,7 +169,7 @@ def play_game():
                     elif can_put:
                         print(f"Only 'put' is possible in column {col}.")
                         action = 'put'
-                    else:  #'pop' as the only move
+                    else:
                         print(f"Only 'pop' is possible in column {col}.")
                         action = 'pop'
                     
@@ -168,7 +182,6 @@ def play_game():
             
             print_board(state)
 
-        #Game Over
         print("\n" + "=" * 35)
         winner = state.get_winner()
         if winner == "draw": print("             GAME DRAW!")
