@@ -1,7 +1,7 @@
 import random
 from id3_popout import load_dataset, predict, predict_top_k, id3
 
-data = load_dataset('dataset.csv')
+data = load_dataset('dataset_facil.csv')
 
 random.seed(42)
 random.shuffle(data)
@@ -39,7 +39,7 @@ best_top2 = 0
 best_top1 = 0
 best_config = (None, None)
 
-profundidades = [7, 9, 12, 15]
+profundidades = [5, 7, 9, 12, 15]
 amostras_minimas = [5, 10, 20]
 
 for depth in profundidades:

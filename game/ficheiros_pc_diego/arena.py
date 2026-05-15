@@ -4,27 +4,28 @@ from mcts import mcts_search
 from id3_popout import get_id3_move
 
 def random_move(state):
-    # returns a valid random move
     return random.choice(state.get_legal_moves())
 
-def play_silent_game(p1_type, p2_type, tree=None, features=None):
-    # plays a complete game without terminal output and returns the winner
+def play_silent_game(p1_type, p2_type, p1_data=None, p2_data=None):
     state = PopOutState()
-    
     while not state.is_terminal():
         moves = state.get_legal_moves()
         current_type = p1_type if state.player == 1 else p2_type
+        current_data = p1_data if state.player == 1 else p2_data
         
         if current_type == 'mcts':
-            # c=1.41 is the standard uct balance for exploration vs exploitation
-            move = mcts_search(state, iterations=1000, c=1.41)
+            c_val = current_data if current_data is not None else 1.41
+            move = mcts_search(state, iterations=1000, c=c_val)
         elif current_type == 'id3':
-            move = get_id3_move(state, tree, features)
+            if current_data:
+                tree, features = current_data
+                move = get_id3_move(state, tree, features)
+            else:
+                move = random.choice(moves)
             if not move or move not in moves:
                 move = random.choice(moves)
         else:
             move = random_move(state)
             
         state = state.make_move(move)
-        
     return state.get_winner()
