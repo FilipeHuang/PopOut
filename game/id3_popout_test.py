@@ -16,17 +16,11 @@ def evaluate(node, dataset):
     if not dataset: return 0, 0
     correct_top1 = 0
     correct_top2 = 0
-    
     for row in dataset:
         pred_1 = predict(node, row)
         preds_k = predict_top_k(node, row, k=2)
-        
-        if pred_1 == row['move']:
-            correct_top1 += 1
-            
-        if row['move'] in preds_k:
-            correct_top2 += 1
-            
+        if pred_1 == row['move']: correct_top1 += 1
+        if row['move'] in preds_k: correct_top2 += 1
     return correct_top1 / len(dataset), correct_top2 / len(dataset)
 
 print(f"=== Avaliação ID3 (Top-1 vs Top-2) ===")
