@@ -1,0 +1,139 @@
+*100 games for each competition
+*all mcts with 1500 iterations
+
+random vs all:
+
+mcts(c=1.41) vs random:
+- tempo total: 202.7s
+	 vitorias: mcts-100 | random-0
+- tempo total: 229.8s
+	 vitorias: mcts-98 | random-2
+
+id3(easy - 50games, 50 iterations, c=5.0) vs random:
+- tempo total: 0.0s
+	vitorias: id3-92 | random-8
+- tempo total: 0.0s
+	vitorias: id3-86 | random-14
+
+id3(medium - 100games, 400 iterations, c=standard) vs random:
+- tempo total: 0.0s
+	vitorias: id3-95 | random-5
+- tempo total: 0.0s
+	vitorias: id3-93 | random-7
+
+id3(hard - 200games, 1000 iterations, c=1.0) vs random:
+- tempo total: 0.0s
+	vitorias: id3-94 | random-6
+- tempo total: 0.0s
+	vitorias: id3-91 | random-9
+
+id3(complex - 5000games, 2000 iterations, c=0.5) vs random:
+- tempo total: 0.0s
+	vitorias: id3-91 | random-9
+- tempo total: 0.0s
+	vitorias: id3-96 | random-4
+
+
+mcts(standard) vs all id3:
+
+mcts(c=1.41) vs id3(easy - 50games, 50 iterations, c=5.0):
+- tempo total: 204.3s
+	vitorias: mcts-95 | id3-5
+- tempo total: 199.5s
+	vitorias: mcts-93 | id3-6 | empates-1
+
+mcts(c=1.41) vs id3(medium - 100games, 400 iterations, c=standard):
+- tempo total: 200.4s
+	vitorias: mcts-92 | id3-8
+- tempo total: 214.4s
+	vitorias: mcts-97 | id3-2 | empates-1
+
+mcts(c=1.41) vs id3(hard - 200games, 1000 iterations, c=1.0):
+- tempo total: 190.3s
+	 vitorias: mcts-88 | id3-12
+- tempo total: 211.9s
+	 vitorias: mcts-100 | id3-0
+
+mcts(c=1.41) vs id3(complex - 5000games, 2000 iterations, c=0.5):
+- tempo total: 208.1s
+	 vitorias: mcts-85 | id3-14 | empates-1
+- tempo total: 202.2s
+	 vitorias: mcts-84 | id3-16
+
+
+standard c(=1.41) vs rest:
+
+mcts(standard vs c=0.5):
+- tempo total: 415.7s
+	vitorias: standard-48 | c(=0.5)-52
+mcts(c=0.5 vs standard):
+- tempo total: 654.7s
+	vitorias: c(=0.5)-60 | standard-40
+
+mcts(standard vs c=1):
+- tempo total: 424.9s
+	vitorias: standard-47 | c(=1)-51 | empates-2
+mcts(c=1 vs standard):
+- tempo total: 938.8s
+	vitorias: c(=1)-43 | standard-57
+
+mcts(standard vs c=5):
+- tempo total: 442.7s
+	vitorias: standard-43 | c(=5)-57
+mcts(c=5 vs standard):
+- tempo total: 688.2s
+	vitorias: c(=5)-59 | standard-40 | empates-1
+
+id3 tournament:
+
+easy vs easy:
+- tempo total: 0.0s
+	vitorias 50/50
+easy vs medium:
+- tempo total: 0.0
+	vitorias 0/100
+medium vs easy
+- tempo total: 0.0
+	vitorias 100/0
+easy vs hard:
+- tempo total: 0.0
+	vitorias 100/0
+hard vs easy:
+- tempo total: 0.0
+	vitorias 0/100
+easy vs complex:
+- tempo total: 0.0
+	vitorias 0/100
+complex vs easy:
+- tempo total: 0.0
+	vitorias 100/0
+
+medium vs medium:
+- tempo total: 0.0s
+	vitorias 50/50
+medium vs hard:
+- tempo total: 0.0
+	vitorias 50/50
+hard vs medium:
+- tempo total: 0.0
+	vitorias 50/50
+medium vs complex:
+- tempo total: 0.0
+	vitorias 50/50
+complex vs medium:
+- tempo total: 0.0
+	vitorias 50/50
+
+hard vs hard:
+- tempo total: 0.0
+	vitorias 50/50
+hard vs complex:
+- tempo total: 0.0
+	vitorias 50/50
+complex vs hard:
+- tempo total: 0.0
+	vitorias 50/50
+
+complex vs complex:
+- tempo total: 0.0
+	vitorias 50/50
