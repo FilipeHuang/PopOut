@@ -1,0 +1,10 @@
+accuracy dos datasets:
+
+easy(50games, 50 iterations, c=5.0): 25.0%
+- max depth: 7, min samples: 20
+medium(100games, 400 iterations, c=standard): 31.9%
+- max depth: 9, min samples: 20
+hard(200games, 1000 iterations, c=1.0): 32.8%
+- max depth: 5, min samples: 5
+complex(5000games, 2000 iterations, c=0.5): 35.0%
+- max depth: 5, min samples: 20
