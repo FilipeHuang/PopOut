@@ -4,6 +4,8 @@ Artificial Intelligence Project
 
 Test the rules by using the following command using files from <*game/ex_inputs*> folder:
 
+**NOTE**: only works in ``linux`` terminal
+
 - Player O winning by 'pop':
 ``` bash
 python3 main.py < ex_inputs/o_pop_win.txt
