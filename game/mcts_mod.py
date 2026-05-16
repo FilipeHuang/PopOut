@@ -16,8 +16,7 @@ class MCTSNode:
         if not moves: return []
 
         for m in moves:
-            if state.make_move(m).get_winner() == state.player:
-                return [m]
+            if state.make_move(m).get_winner() == state.player: return [m]
 
         dummy = state.copy()
         dummy.player = 3 - state.player
@@ -25,8 +24,7 @@ class MCTSNode:
         threats = []
         
         for m in opp_moves:
-            if dummy.make_move(m).get_winner() == dummy.player:
-                threats.append(m)
+            if dummy.make_move(m).get_winner() == dummy.player: threats.append(m)
 
         if threats:
             blocks = []
@@ -37,16 +35,12 @@ class MCTSNode:
                     if ns.make_move(opp_m).get_winner() == ns.player:
                         still_threatened = True
                         break
-                if not still_threatened:
-                    blocks.append(m)
-            if blocks:
-                moves = blocks
-
+                if not still_threatened: blocks.append(m)
+            if blocks: moves = blocks
         moves.sort(key=lambda m: abs(m[0] - 3), reverse=True)
         return moves
 
-    def is_fully_expanded(self):
-        return len(self.untried_moves) == 0
+    def is_fully_expanded(self): return len(self.untried_moves) == 0
 
     def best_child(self, c=1.41):
         return max(self.children, key=lambda n:
@@ -69,13 +63,10 @@ class MCTSNode:
 
     def backpropagate(self, result, ai_player):
         self.visits += 1
-        if result == 'draw':
-            self.wins -= 0.5
-        elif result == ai_player:
-            self.wins += 1
+        if result == 'draw': self.wins -= 0.5
+        elif result == ai_player: self.wins += 1
         else: self.wins -= 15
-        if self.parent:
-            self.parent.backpropagate(result, ai_player)
+        if self.parent: self.parent.backpropagate(result, ai_player)
 
 
 def mcts_search(state, iterations=1500, c=1.41):
@@ -91,18 +82,12 @@ def mcts_search(state, iterations=1500, c=1.41):
     for _ in range(iterations):
         # 1. Selection
         node = root
-        while node.is_fully_expanded() and node.children:
-            node = node.best_child(c)
-
+        while node.is_fully_expanded() and node.children: node = node.best_child(c)
         # 2. Expansion
-        if not node.is_fully_expanded():
-            node = node.expand()
-
+        if not node.is_fully_expanded(): node = node.expand()
         # 3. Simulation
         result = node.rollout()
-
         # 4. Backpropagation
         node.backpropagate(result, ai_player)
-
     best = max(root.children, key=lambda n: n.visits)
     return best.move
