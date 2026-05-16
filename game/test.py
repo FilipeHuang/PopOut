@@ -1,7 +1,7 @@
 import random
 from id3_popout import load_dataset, predict, predict_top_k, id3
-
-data = load_dataset('dataset_facil.csv')
+# change the name of the file if want to test other datasets from '/data' folder
+data = load_dataset('data/dataset_facil.csv')
 
 random.seed(42)
 random.shuffle(data)
