@@ -113,7 +113,8 @@ def generate_dataset(num_games=1000, iterations=2000, output_file="dataset.csv")
             state = PopOutState()
             print(f"Game {game_num + 1}/{num_games} | Exemplos guardados: {total}")
 
-            while not state.is_terminal() :best_move = mcts_search(state, iterations=iterations, c=1.41)
+            while not state.is_terminal() :
+                best_move = mcts_search(state, iterations=iterations, c=1.41)
                 total_pieces = sum(cell != 0 for row in state.board for cell in row)
                 if total_pieces >= 2:
                     feats = state_to_features(state)
