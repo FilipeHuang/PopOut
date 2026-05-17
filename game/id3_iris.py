@@ -5,7 +5,7 @@ from collections import Counter
 # Aplicar ID3 ao dataset iris como warm-up para validar a nossa implementação antes de a usar no PopOut.
 
 # CARREGAR O DATASET 
-def load_iris(filepath="iris.csv"):
+def load_iris(filepath="data/iris.csv"):
     # Lê o ficheiro CSV e devolve uma lista de dicionários,
     # Cada dicionário representa uma flor com as suas medidas e classe.
     # A coluna ID é ignorada porque não tem valor preditivo.
