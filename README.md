@@ -17,7 +17,10 @@ ID3 implementations:
 - ``id3_popout_test.py``, to test the accuracy of the id3 - should be run directly through this file
 
 Data generation: ``generate_dataset.py``, gererate the dataset based to mcts plays
+
 ---
+## Adiotional
+
 Test the 3 main rules by using the following command using files from <*game/ex_inputs*> folder:
 
 **NOTE**: only works in ``linux`` terminal
